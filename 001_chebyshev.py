@@ -3,6 +3,31 @@ import scipy.linalg
 import scipy.integrate
 import matplotlib.pyplot as plt
 
+def set_rcParams():
+    plt.rcParams.update({
+        'text.usetex': True,
+        'font.family': 'serif',
+        'font.size': 12,
+        'axes.labelsize': 14,
+        'axes.titlesize': 14,
+        'axes.titlepad': 14,
+        'xtick.labelsize': 12,
+        'ytick.labelsize': 12,
+        'legend.fontsize': 12,
+        'lines.linewidth': 2,
+        'lines.markersize': 6,
+        'axes.linewidth': 1.2,
+        'xtick.major.size': 6,
+        'xtick.major.width': 1.2,
+        'ytick.major.size': 6,
+        'ytick.major.width': 1.2,
+        'figure.figsize': (6, 4),
+        'savefig.dpi': 600,
+        'savefig.format': 'jpg'
+    })
+
+set_rcParams()
+
 # Compute Chebyshev-Lobatto points
 def chebyshev_points(N):
     return np.cos(np.pi * np.arange(N) / (N - 1))
@@ -83,9 +108,11 @@ x, y = solve_bvp(N)
 x_scipy, y_scipy = solve_bvp_scipy()
 
 # Plot result
-plt.plot(x, y, 'o-', label='Chebyshev Collocation')
-plt.plot(x_scipy, y_scipy, '-', label='Scipy Solver')
+plt.title(r"Solution of $\frac{d^2 y}{dx^2} - y = \sin(\pi x), \quad y(-1) = 0, \quad y(1) = 0$")
+plt.plot(x, y, 'o-', label='Chebyshev collocation')
+plt.plot(x_scipy, y_scipy, '-', label='solve_bvp')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.legend()
-plt.show()
+plt.tight_layout()  # Automatically adjusts layout
+plt.savefig("chebyshev_collocation.jpg")
